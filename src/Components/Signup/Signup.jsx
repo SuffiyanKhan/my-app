@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Spin } from 'antd';
-import {storage, ref, uploadBytesResumable, getDownloadURL, auth, createUserWithEmailAndPassword, setDoc, doc,  db, sendEmailVerification} from "../../Config/FirebaseConfig"
+import {storage, ref, uploadBytesResumable, getDownloadURL, auth, createUserWithEmailAndPassword, collection, onSnapshot, setDoc, doc,  db, sendEmailVerification, query, where} from "../../Config/FirebaseConfig"
 import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'
+
 import './Signup.css'
-
-
 
 const MyForm = () => {
   const [userName, setUserName] = useState('');
@@ -22,6 +22,7 @@ const MyForm = () => {
   const [SelectedGender,setSelectedGender] =useState('')
   const [dateOfBirth,setDateOfBirth]=useState('')
   const [imageURL,setImageURL] =useState('')
+  const [loaderNumber ,setLoaderNumber] = useState('')
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -38,7 +39,7 @@ const MyForm = () => {
 
   }
   const navigate = useNavigate()
-  const handleSubmit = async () => {
+  const handleSubmit = async () => {   
     if (!userName || !email || !password || !cnicNumber || !imageURL || !phoneNumber || !qualification || !selectedCourses || !SelectedGender) {   
       alert("Please fill in all the required fields");
     }else{
@@ -61,7 +62,6 @@ const MyForm = () => {
       try {
            createUserWithEmailAndPassword(auth, formData.email, formData.password)
   .then(async(userCredential) => {
-    // Signed up 
     const user = userCredential.user;
     await setDoc(doc(db, "All Students", user.uid), {
       Name: formData.userName,
@@ -79,20 +79,19 @@ const MyForm = () => {
     });
     
     setSignupBtn(false)
-    navigate('/home') 
-    
-    console.log(user)
-
-    // ...
+    navigate('/selectedtrainer') 
   })
   .catch((error) => {
     const errorCode = error.code;
     const errorMessage = errorCode.slice(5).toUpperCase();
     const errMessage = errorMessage.replace(/-/g, " ");
-    console.log(errMessage)
-    // ..
+    Swal.fire({
+      title: "Error!",
+      text: errMessage + "!",
+      icon: "error"
+    });
+    // ..error
   });
-        // await data(formData);
         setImage(null);
       } catch (error) {
         console.error('Error submitting data to Firebase:', error);
@@ -107,7 +106,8 @@ const MyForm = () => {
 uploadTask.on('state_changed', 
   (snapshot) => {
     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    console.log('Upload is ' + progress + '% done');
+    
+    setLoaderNumber(progress);
     switch (snapshot.state) {
       case 'paused':
         console.log('Upload is paused');
@@ -125,11 +125,9 @@ uploadTask.on('state_changed',
     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
       setImageURL(downloadURL)
       setBtnLoader(false)
-      console.log('File available at', downloadURL);
     })
   }
 );
-    // console.log(image.name)
   }
   const back=()=>{
     navigate('/')
@@ -208,10 +206,10 @@ uploadTask.on('state_changed',
           <div className="col-lg-12col-sm-12 col-md-12 mt-3">
           <label htmlFor='image' className='border text-center lh-lg' style={{width : "140px",height : "40px"}} >Picture</label>
              <input type="file" onChange={handleImageChange} id='image' style={{display :'none'}} />
-             <button className='btn btn-dark mx-3' onClick={uploadFiles}>{btnLoader ? <Spin /> : ' Upload'}</button>
+             <button className='btn btn-dark mx-3' onClick={uploadFiles}>{btnLoader ? <Spin /> + `${loaderNumber} %` : ' Upload'}</button>
           </div>
           <div className="mt-5 justify-content-center d-flex justify-content-center">
-            <button className="btn btn-dark" onClick={handleSubmit} disabled={loading} style={{display :  imageURL ? "block" : " none"}}>
+            <button className="btn btn-dark" onClick={handleSubmit} disabled={loading} style={{display :  imageURL ? "block" : " none"}} >
               {signupBtn ? 'Loading...' : 'REGISTRATION'}
             </button>
           </div>
@@ -227,5 +225,5 @@ uploadTask.on('state_changed',
 export default MyForm;
 
 
-
-
+// angular sheet from hardware shop
+// style={{display :  imageURL ? "block" : " none"}}
