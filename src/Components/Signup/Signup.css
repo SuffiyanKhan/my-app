@@ -1,0 +1,14 @@
+#back-btn{
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: none;
+}
+#back-btn i{
+    font-size: 20px;
+}
+#back-btn:hover{
+    border-radius: 50%;
+    background-color: lightgrey;
+}
