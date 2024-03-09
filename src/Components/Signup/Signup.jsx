@@ -74,8 +74,8 @@ const MyForm = () => {
       Gender : formData.SelectedGender ,
       Courses : formData.selectedCourses ,
       Phone_Number : formData.phoneNumber ,
-      image_URL : formData.imageURL
-
+      image_URL : formData.imageURL,
+      studentId : user.uid
     });
     
     setSignupBtn(false)
@@ -90,6 +90,7 @@ const MyForm = () => {
       text: errMessage + "!",
       icon: "error"
     });
+    setSignupBtn(false)
     // ..error
   });
         setImage(null);
@@ -206,7 +207,7 @@ uploadTask.on('state_changed',
           <div className="col-lg-12col-sm-12 col-md-12 mt-3">
           <label htmlFor='image' className='border text-center lh-lg' style={{width : "140px",height : "40px"}} >Picture</label>
              <input type="file" onChange={handleImageChange} id='image' style={{display :'none'}} />
-             <button className='btn btn-dark mx-3' onClick={uploadFiles}>{btnLoader ? <Spin /> + `${loaderNumber} %` : ' Upload'}</button>
+             <button className='btn btn-dark mx-3' onClick={uploadFiles}>{btnLoader ? <Spin /> : ' Upload'}</button>
           </div>
           <div className="mt-5 justify-content-center d-flex justify-content-center">
             <button className="btn btn-dark" onClick={handleSubmit} disabled={loading} style={{display :  imageURL ? "block" : " none"}} >

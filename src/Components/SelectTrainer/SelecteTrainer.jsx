@@ -10,7 +10,8 @@ import {
   auth,
   where,
   setDoc,
-  getDoc
+  getDoc,
+   addDoc
 } from '../../Config/FirebaseConfig';
 import { useNavigate } from 'react-router-dom';
 
@@ -96,9 +97,10 @@ export default function SelecteTrainer() {
   const navigate = useNavigate()
 const data = async (id) => {
     try {
-      setSavingData(true);
+      // setSavingData(true);
 
       const teacherDoc = await getDoc(doc(db, "All Teachers", id));
+      // console.log(teacherDoc.data())
       await setDoc(doc(db, teacherDoc.data().Name, userId), {
         TeacherName: teacherDoc.data().Name,
         StudentName: studentName,
@@ -109,7 +111,20 @@ const data = async (id) => {
         Studentimage_url: studentimage_url,
         StudentId: studentId,
       });
-      navigate('/studentDashboard');
+      const docRef = await addDoc(collection(db, studentId), {
+        TeacherName: teacherDoc.data().Name,
+        StudentName: studentName,
+        Days: teacherDoc.data().Days,
+        Timming: teacherDoc.data().Timming,
+        StudentCourse: studentCourse,
+        StudentEmail: studentEmail,
+        Studentimage_url: studentimage_url,
+        StudentId: studentId,
+        TeacherId : id
+      });
+      navigate('/studentDashboard');   
+      // || savingData
+
     } catch (error) {
       console.error("Error adding document: ", error);
       setSavingData(false);
@@ -118,7 +133,7 @@ const data = async (id) => {
 
   return (
     <div>
-      {loadingData || savingData ? (
+      {loadingData  ? (
         <div class="text-center">
         <div class="spinner-border" role="status">
           <span class="visually-hidden">Loading...</span>
