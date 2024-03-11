@@ -1,6 +1,9 @@
 import { createContext } from "react";
 
-const userData = createContext()
+const studentData = createContext(null)
+const TeacherName = createContext(null)
+ 
+export {studentData,  TeacherName}
 
 
 

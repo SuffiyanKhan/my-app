@@ -22,12 +22,14 @@ export default function Router() {
     <div>
         <BrowserRouter>
         <Routes>
-            <Route path='/' element={User ? <Navigate to={'/home'} /> :  <Login/>} />
-            <Route path='/signup' element={User ? <Navigate to={'/home'} /> :  <Signup/> } />
+            <Route path='/' element={  <Login/>} />
+            <Route path='/signup' element={  <Signup/> } />
             <Route path='/home' element={<Home/>} />
             <Route path='/selectedtrainer' element={<SelecteTrainer/>} />
             <Route path='/adminDahsboard' element={< AdminDahsboard/>} />
             <Route path='/studentDashboard' element={< StudentDhsboard/>} />
+            {/* User ? <Navigate to={'/home'} /> :
+User ? <Navigate to={'/home'} /> : */}
         </Routes>
         </BrowserRouter>
     </div>

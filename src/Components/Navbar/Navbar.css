@@ -1,3 +1,12 @@
+
+
+.bg-body-color{
+    background-color: #96B6C5;
+    /* background-color: #0766AD; */
+    /* background-color: #8EA7E9; */
+    /* background-color: #E5E0FF; */
+}
+
 .navbar-toggler-icon{
     color: blue;
 }

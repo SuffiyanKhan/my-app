@@ -79,16 +79,21 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { db, onAuthStateChanged, auth, getDocs, collection } from '../../Config/FirebaseConfig';
-import StudentNavbar from '../StudentNavbar/StudentNavbar';
 import AppNavbar from '../Navbar/Navbar';
 import FirstBanner from '../FirstBanner/FirstBanner';
 import { Spin } from 'antd';
+import { studentData } from '../../Context/Context';
+import { TeacherName } from '../../Context/Context';
+import SecondBanner from '../SecondBanner/SecondBanner';
+ 
 
 export default function StudentDhsboard() {
   const [userId, setUserId] = useState('');
-  const [trainerName, setTrainerName] = useState('');
-  const [Course , setCourse] = useState('')
   const [loader, setLoader] = useState(true);
+  const [trainerName, setTrainerName] = useState('');
+  const [Course , setCourse] = useState('');
+  const [Days ,  setDays] = useState('');
+  const [timing , setTiming] = useState('')
 
   const getData = async () => {
     try {
@@ -96,9 +101,20 @@ export default function StudentDhsboard() {
       querySnapshot.forEach((doc) => {
         setTrainerName(doc.data().TeacherName);
         setCourse(doc.data().StudentCourse)
+        if(doc.data().Days === "MWF"){
+          setDays("Monday, Wednesday, Friday")
+        }else if(doc.data().Days === "TTS"){
+          setDays("Tuesday, Thursday, Saturday")
+        }else if(doc.data().Days === "week end only"){
+          setDays("only sunday")
+        }else if(doc.data().Days === "All"){
+          setDays(" Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday")
+        }
+        setTiming(doc.data().Timming)
     // TeacherName, Studentimage_url, StudentName , StudentEmail, StudentCourse, Days
 
       });
+      
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -126,18 +142,25 @@ export default function StudentDhsboard() {
 
   const navigate = useNavigate();
 
-  const logout = () => {
-    auth.signOut().then(() => {
-      navigate('/');
-    });
-  };
+  
+  const datas ={
+    TeacherName : trainerName,
+    CourseName : Course,
+    Days : Days,
+    Timing : timing
+  }
 
   return (
     <div>
       <AppNavbar />
-      {loader ? <Spin /> : <FirstBanner data={trainerName} />}
-      StudentDhsboard
-      <button onClick={logout}>Log out</button>
+      <studentData.Provider value={datas}>
+      {loader ? <div className='spiners' style={{width: "100%", height : "100vh", display :"flex" , justifyContent :'center' , alignItems : 'center'}}> <Spin /></div> : <FirstBanner/>}
+      </studentData.Provider>
+      <TeacherName.Provider value={trainerName}>
+      <SecondBanner/>
+      </TeacherName.Provider>
+      {/* StudentDhsboard
+      <button onClick={logout}>Log out</button> */}
     </div>
   );
 }
