@@ -13,6 +13,7 @@ export default function AdminDahsboard() {
   const [selectedCourses , setselectedCourses] = useState('')
   const [timming , setTimming] = useState('')
   const [days , setDays] = useState('')
+  const [loader ,setLoader] = useState(false)
 
   let registration =()=>{
     if( !teacherName){
@@ -44,10 +45,11 @@ export default function AdminDahsboard() {
       }
       console.log(obj)
     }
-
+    setLoader(true)
     createUserWithEmailAndPassword(auth, email, password)
   .then(async(userCredential) => {
-    const user = userCredential.user;
+    try {
+      const user = userCredential.user;
     await setDoc(doc(db, "All Teachers",user.uid), {
       Name:  teacherName,
       Email : email ,
@@ -60,8 +62,17 @@ export default function AdminDahsboard() {
       UserId : user.uid
     });
     console.log(user.uid)
+      
+    } catch (error) {
+    setLoader(false)
+      
+    }finally{
+    setLoader(false)
+    }
+    
   })
   .catch((error) => {
+    setLoader(false)
     const errorCode = error.code;
     const errorMessage = errorCode.slice(5).toUpperCase();
     const errMessage = errorMessage.replace(/-/g, " ");
@@ -76,7 +87,7 @@ export default function AdminDahsboard() {
     navigate('/')
   }
   return (
-    <div>
+    <div style={{width : "100%" , height : "100vh", backgroundColor : "#96B6C5"}}>
       <div className="container">
         <div className="row d-flex">
           <div className="mt-4"><button id='back-btn' onClick={back} ><i className="fa-solid fa-arrow-left"></i></button></div>
@@ -131,11 +142,12 @@ export default function AdminDahsboard() {
           </div>
           <div className="mt-5 justify-content-center d-flex justify-content-center">
             <button className="btn btn-dark" onClick={registration}   >
-              Registration
+              {loader ? "loading ..." : "Registration"}
+              
             </button>
           </div>
-          <div className="">
-            <p>I have arledy an account ?  <Link to={'/'} >Login</Link></p>
+          <div className="text-center mt-5">
+            <p>I have arledy an account ?  <Link to={'/'} className='text-dark' >Login</Link></p>
           </div>
         </div>
       </div>

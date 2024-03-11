@@ -135,7 +135,7 @@ uploadTask.on('state_changed',
   }
   
   return (
-    <div>
+    <div style={{width : "100%" , height : "100%", backgroundColor : "#96B6C5"}}>
       <div className="container">
         <div className="row d-flex">
           <div className="mt-4"><button id='back-btn' onClick={back}><i class="fa-solid fa-arrow-left"></i></button></div>
@@ -205,8 +205,8 @@ uploadTask.on('state_changed',
             <input type="text" className='form-control' placeholder='Enter Full Name' />
           </div>
           <div className="col-lg-12col-sm-12 col-md-12 mt-3">
-          <label htmlFor='image' className='border text-center lh-lg' style={{width : "140px",height : "40px"}} >Picture</label>
-             <input type="file" onChange={handleImageChange} id='image' style={{display :'none'}} />
+          <label htmlFor='image' className='border text-center lh-lg rounded w-25' style={{height : "40px", cursor : 'pointer'}} ><i class="fa-solid fa-upload"></i> Upload Picture</label>
+             <input type="file" onChange={handleImageChange} id='image' className='rounded' style={{display :'none'}} />
              <button className='btn btn-dark mx-3' onClick={uploadFiles}>{btnLoader ? <Spin /> : ' Upload'}</button>
           </div>
           <div className="mt-5 justify-content-center d-flex justify-content-center">
@@ -214,8 +214,8 @@ uploadTask.on('state_changed',
               {signupBtn ? 'Loading...' : 'REGISTRATION'}
             </button>
           </div>
-          <div className="">
-            <p>I have arledy an account ? <Link to={'/'}>Login</Link></p>
+          <div className="text-center">
+            <p>I have arledy an account ? <Link to={'/'} className='text-dark'>Login</Link></p>
           </div>
         </div>
       </div>

@@ -1,9 +1,8 @@
 import './Navbar.css'
- // import image from '../Images/download-removebg-preview.png'
+import logo from '../Images/logo.png'
 import { auth } from '../../Config/FirebaseConfig';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'
-// import logo from '../Images/Logo/Logo.png'
 function AppNavbar() {
   const navigate = useNavigate()
   const logout = () => {
@@ -14,12 +13,12 @@ function AppNavbar() {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
+      confirmButtonText: "Log out!"
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
           title: "Deleted!",
-          text: "Your file has been deleted.",
+          text: "Logout Successfully!",
           icon: "success"
         }).then((result)=>{
           if(result){
@@ -36,7 +35,7 @@ function AppNavbar() {
   return (
     <nav className="navbar navbar-expand-lg bg-body-color px-5 border-bottom position-sticky">
   <div className="container-fluid">
-    {/* <img src={logo} className='navbar-brand img-fluid' style={{width : 70}} /> */}
+    <img src={logo} className='navbar-brand img-fluid' style={{width : 70}} />
     <button className="navbar-toggler bg-primary outline-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <i className="fa-solid fa-bars text-light"></i>
     </button>
@@ -61,7 +60,6 @@ function AppNavbar() {
           <Link className="nav-link active" aria-current="page" onClick={logout}>Logout</Link>
         </li>
       </ul>
-       {/* <button className="btn btn-primary">Get started</button>"R35CdEJz77d45MnYRWcTkF5Pstv1" */}
     </div>
   </div>
 </nav>

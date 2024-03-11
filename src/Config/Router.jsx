@@ -7,6 +7,7 @@ import Home from '../Pages/Home'
 import AdminDahsboard from '../Components/Admin Dahsboard/AdminDahsboard'
 import SelecteTrainer from '../Components/SelectTrainer/SelecteTrainer'
 import StudentDhsboard from '../Components/Student Dashboard/StudentDhsboard'
+import TeacherDashboard from '../Components/TeacherDashboard/TeacherDashboard'
 export default function Router() {
   let [User,setUser]=useState(false)
   useEffect(()=>{
@@ -22,12 +23,13 @@ export default function Router() {
     <div>
         <BrowserRouter>
         <Routes>
-            <Route path='/' element={  <Login/>} />
-            <Route path='/signup' element={  <Signup/> } />
+            <Route path='/' element={ User ? <Navigate to={'/home'} /> : <Login/>} />
+            <Route path='/signup' element={ User ? <Navigate to={'/home'} /> : <Signup/> } />
             <Route path='/home' element={<Home/>} />
             <Route path='/selectedtrainer' element={<SelecteTrainer/>} />
             <Route path='/adminDahsboard' element={< AdminDahsboard/>} />
             <Route path='/studentDashboard' element={< StudentDhsboard/>} />
+            <Route path='/teacherDashboard' element={< TeacherDashboard/>} />
             {/* User ? <Navigate to={'/home'} /> :
 User ? <Navigate to={'/home'} /> : */}
         </Routes>

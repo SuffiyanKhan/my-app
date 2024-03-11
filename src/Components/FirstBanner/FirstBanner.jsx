@@ -7,7 +7,6 @@ function FirstBanner(data) {
   
   const getData = useContext(studentData)
   if (!getData) {
-    // handle the case where the context data is not set
     return <div>Loading...</div>;
   }
  
