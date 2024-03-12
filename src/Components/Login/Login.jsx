@@ -3,6 +3,8 @@ import { auth,signInWithEmailAndPassword, collection, db, onSnapshot } from '../
 import Swal from 'sweetalert2'
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css'
+import { ids } from '../../Context/Context';
+// import Router from '../../Config/Router';
 
 export default function AppLogin() {
   // let [email,setEmail]=useState('')
@@ -114,104 +116,213 @@ let [email, setEmail] = useState('');
   const [teacherUid, setTeacherUid] = useState([]); // Store teacher IDs in an array
   const [studentUid, setStudentUid] = useState(''); // Store student ID as a single value
   const navigate = useNavigate();
+  const [student ,setStudent] = useState(false)
+  const [teacher ,setTeacher] = useState(false)
 
-  useEffect(() => {
-    let getTeacherIds = async () => {
-      const teacherIds = [];
+//   useEffect(() => {
+//     let getTeacherIds = async () => {
+//       const teacherIds = [];
 
-      const q = collection(db, "All Teachers");
-      const unsubscribe = await onSnapshot(q, (snapshot) => {
-        snapshot.docs.forEach((doc) => {
-          teacherIds.push(doc.id);
-          console.log(doc.id);
-        });
+//       const q = collection(db, "All Teachers");
+//       const unsubscribe = await onSnapshot(q, (snapshot) => {
+//         snapshot.docs.forEach((doc) => {
+//           teacherIds.push(doc.id);
+//           console.log(doc.id);
+//         });
 
-        setTeacherUid(teacherIds);
+//         setTeacherUid(teacherIds);
+//       });
+//     };
+
+//     getTeacherIds();
+//     let getStudentIds =()=>{
+//       let studentsIds =[]
+//       const q2 = collection(db, "All Students");
+//       const unsubscribeStudents = onSnapshot(q2, (snapshot) => {
+//         snapshot.docs.forEach((doc) => {
+//           studentsIds.push(doc.id);
+//           console.log(doc.id);
+//         });
+//         setStudentUid(studentsIds)
+//       });
+//     }
+//     getStudentIds()
+
+   
+//   }, []);
+
+//   // ... Your other functions ...
+
+//   let login = () => {
+// // console.log(teacherUid , studentUid )
+
+//     setLoader(true);
+
+//     signInWithEmailAndPassword(auth, email, password)
+//       .then((userCredential) => {
+//         // try {
+//         //   const user = userCredential.user;
+//         //   if(user.uid === teacherUid){
+//         //     alert("Welcome to trainer")
+//         //   }else if(user.uid === studentUid ){
+//         //     alert("Welcome to student")
+//         //   }
+//         //   console.log(user.uid)
+          
+//         // } catch (error) {
+          
+//         // }
+//         // try {
+//         //   const user = userCredential.user;
+
+//         //   if (teacherUid.includes(user.uid)) {
+//         //     setLoader(false);
+//         //     Swal.fire({
+//         //       title: "Good job!",
+//         //       text: "Login successfully",
+//         //       icon: "success",
+//         //     }).then((result) => {
+//         //       if (result.isConfirmed) {
+//         //         setLoader(false);
+//         //         setTeacher(true)
+//         //         navigate('/teacherDashboard');
+//         //       }
+//         //     });
+//         //   } else if (studentUid === user.uid) {
+//         //     setLoader(false);
+//         //     Swal.fire({
+//         //       title: "Good job!",
+//         //       text: "Login successfully",
+//         //       icon: "success",
+//         //     }).then((result) => {
+//         //       if (result.isConfirmed) {
+//         //         setLoader(false);
+//         //         setStudent(true)
+//         //         // navigate('/home');
+//         //       }
+//         //     });
+//         //   } else {
+//         //     setLoader(false);
+//         //     Swal.fire({
+//         //       title: "Error!",
+//         //       text: "Invalid credentials or role",
+//         //       icon: "error",
+//         //     });
+//         //   }
+//         // } catch (error) {
+//         //   setLoader(false);
+//         // }
+//       })
+//       .catch((error) => {
+//         setLoader(false);
+
+//         const errorCode = error.code;
+//         const errorMessage = errorCode.slice(5).toUpperCase();
+//         const errMessage = errorMessage.replace(/-/g, " ");
+//         Swal.fire({
+//           title: "Error!",
+//           text: `${errMessage} !`,
+//           icon: "error",
+//         });
+//       });
+//   };
+
+// let openHiddenPopup=()=>{
+//   setPopupVisibility(true)
+// }
+// let closePopup =()=>{
+//   setPopupVisibility(false)
+// }
+// let obj ={
+//   student : student,
+//   teacher : teacher
+// }
+
+
+useEffect(() => {
+  let getTeacherIds = async () => {
+    const teacherIds = [];
+    // Assuming 'All Teachers' is a collection in Firestore
+    const q = collection(db, 'All Teachers');
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        teacherIds.push(doc.id);
       });
-    };
-
-    getTeacherIds();
-
-    const q2 = collection(db, "All Students");
-    const unsubscribeStudents = onSnapshot(q2, (snapshot) => {
-      if (snapshot.docs.length > 0) {
-        const studentId = snapshot.docs[0].id; // Assuming there is only one student ID
-        setStudentUid(studentId);
-      }
+      setTeacherUid(teacherIds);
     });
-
-    return () => {
-      unsubscribeStudents();
-    };
-  }, []);
-
-  // ... Your other functions ...
-
-  let login = () => {
-    setLoader(true);
-
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        try {
-          const user = userCredential.user;
-
-          if (teacherUid.includes(user.uid)) {
-            setLoader(false);
-            Swal.fire({
-              title: "Good job!",
-              text: "Login successfully",
-              icon: "success",
-            }).then((result) => {
-              if (result.isConfirmed) {
-                setLoader(false);
-                navigate('/teacherDashboard');
-              }
-            });
-          } else if (studentUid === user.uid) {
-            setLoader(false);
-            Swal.fire({
-              title: "Good job!",
-              text: "Login successfully",
-              icon: "success",
-            }).then((result) => {
-              if (result.isConfirmed) {
-                setLoader(false);
-                // navigate('/home');
-              }
-            });
-          } else {
-            setLoader(false);
-            Swal.fire({
-              title: "Error!",
-              text: "Invalid credentials or role",
-              icon: "error",
-            });
-          }
-        } catch (error) {
-          setLoader(false);
-        }
-      })
-      .catch((error) => {
-        setLoader(false);
-
-        const errorCode = error.code;
-        const errorMessage = errorCode.slice(5).toUpperCase();
-        const errMessage = errorMessage.replace(/-/g, " ");
-        Swal.fire({
-          title: "Error!",
-          text: `${errMessage} !`,
-          icon: "error",
-        });
-      });
   };
 
-let openHiddenPopup=()=>{
-  setPopupVisibility(true)
-}
-let closePopup =()=>{
-  setPopupVisibility(false)
-}
-console.log(teacherUid)
+  let getStudentIds = () => {
+    const studentsIds = [];
+    // Assuming 'All Students' is a collection in Firestore
+    const q2 = collection(db, 'All Students');
+    const unsubscribeStudents = onSnapshot(q2, (snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        studentsIds.push(doc.id);
+      });
+      setStudentUid(studentsIds);
+    });
+  };
+
+  getTeacherIds();
+  getStudentIds();
+}, []);
+
+let login = () => {
+  setLoader(true);
+
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      try {
+        const user = userCredential.user;
+
+        if (teacherUid.includes(user.uid)) {
+          setLoader(false);
+          setTeacher(true);
+          navigate('/teacherDashboard');
+        } else if (studentUid.includes(user.uid)) {
+          setLoader(false);
+          setStudent(true);
+          navigate('/home');
+        } else {
+          setLoader(false);
+          Swal.fire({
+            title: 'Error!',
+            text: 'Invalid credentials or role',
+            icon: 'error',
+          });
+        }
+      } catch (error) {
+        setLoader(false);
+      }
+    })
+    .catch((error) => {
+      setLoader(false);
+
+      const errorCode = error.code;
+      const errorMessage = errorCode.slice(5).toUpperCase();
+      const errMessage = errorMessage.replace(/-/g, ' ');
+      Swal.fire({
+        title: 'Error!',
+        text: `${errMessage} !`,
+        icon: 'error',
+      });
+    });
+};
+
+let openHiddenPopup = () => {
+  setPopupVisibility(true);
+};
+
+let closePopup = () => {
+  setPopupVisibility(false);
+};
+
+let obj = {
+  student: student,
+  teacher: teacher,
+};
+
   return (
     <div style={{width : "100%" , height : "100vh", backgroundColor : "#96B6C5"}}>
       <div className="container">
@@ -268,6 +379,12 @@ console.log(teacherUid)
       </section>
         )
       }
+      <ids.Provider>
+        
+      </ids.Provider>
+      {/* <uids.Provider value={obj}>
+        <Router/>
+       </uids.Provider> */}
       
     </div>
   )
