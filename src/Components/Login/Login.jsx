@@ -3,10 +3,10 @@ import { auth,signInWithEmailAndPassword, collection, db, onSnapshot } from '../
 import Swal from 'sweetalert2'
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css'
-import { ids } from '../../Context/Context';
-// import Router from '../../Config/Router';
+import { AllIds, ids } from '../../Context/Context';
+import Routing from '../../Config/Routing';
 
-export default function AppLogin() {
+ function AppLogin({loginData}) {
   // let [email,setEmail]=useState('')
   // let[password,setPassword]=useState('')
   // const [isPopupVisible, setPopupVisibility] = useState(false);
@@ -118,7 +118,6 @@ let [email, setEmail] = useState('');
   const navigate = useNavigate();
   const [student ,setStudent] = useState(false)
   const [teacher ,setTeacher] = useState(false)
-
 //   useEffect(() => {
 //     let getTeacherIds = async () => {
 //       const teacherIds = [];
@@ -308,6 +307,7 @@ let login = () => {
         icon: 'error',
       });
     });
+    
 };
 
 let openHiddenPopup = () => {
@@ -345,10 +345,14 @@ let obj = {
             <label className='ms-2'>Remember me</label>
           </div>
           <div className="mt-5 d-flex justify-content-center">
-            <button className="btn btn-dark" onClick={login} >
+            {/* data("hi")login */}
+            <button className="btn btn-dark" onClick={()=>{login()}}>
               {
                 loader ? "Loading ..." : "Login"
               }
+            </button>
+            <button className="btn btn-dark" onClick={()=>{loginData('hi')}}>
+               value send to router
             </button>
             
           </div>
@@ -379,9 +383,9 @@ let obj = {
       </section>
         )
       }
-      <ids.Provider>
-        
-      </ids.Provider>
+       {/* <AllIds.Provider>
+        <Routing/>
+       </AllIds.Provider> */}
       {/* <uids.Provider value={obj}>
         <Router/>
        </uids.Provider> */}
@@ -389,7 +393,7 @@ let obj = {
     </div>
   )
 }
-
+export default React.memo(AppLogin)
 
 // ... Your other imports and component code ...
 

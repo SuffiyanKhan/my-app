@@ -160,7 +160,7 @@ export default function StudentDhsboard() {
       <SecondBanner/>
       </TeacherName.Provider>
       {/* StudentDhsboard
-      <button onClick={logout}>Log out</button> */}
+      <button onClick={logout}>Log out</button> 03193856368 */}
     </div>
   );
 }
