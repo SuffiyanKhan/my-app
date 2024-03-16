@@ -1,0 +1,74 @@
+
+.bg-body-color{
+    background-color: #96B6C5;
+    /* background-color: #0766AD; */
+    /* background-color: #8EA7E9; */
+    /* background-color: #E5E0FF; */
+}
+
+.navbar-toggler-icon{
+    color: blue;
+}
+.ProfileHiddenPopup{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+
+}
+.ProfileHiddenPopup .mainHiddenPopup{
+    margin: auto;
+
+    width: 60%;
+    height: 100%;
+    border: 4px solid black;
+    padding: 4px 20px;
+
+}
+.ProfileHiddenPopup .head{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* border: 2px solid black; */
+    padding: 3px 10px;
+}
+.ProfileHiddenPopup .head p{
+    font-size: 17px;
+}
+.ProfileHiddenPopup .head #closer-btn{
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+    transition: all ease 0.3s;
+}
+.ProfileHiddenPopup .head #closer-btn:hover{
+    border-radius: 50%;
+    background-color:  lightgrey;
+}
+
+.ProfileHiddenPopup .buttons{
+    display: flex;
+    flex-direction: column;
+    /* border: 2px solid; */
+    gap: 20px 0px;
+}
+.ProfileHiddenPopup .buttons button{
+    width: 100%;
+    cursor: pointer;
+}
+@media (min-width:0px) and (max-width:480px) {
+    .ProfileHiddenPopup .mainHiddenPopup{
+        width: 100%;
+        height: 240px;
+        border: 4px solid black;
+    }
+}

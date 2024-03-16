@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import './SelectedTrainer.css'
 import {
   onSnapshot,
@@ -15,7 +15,7 @@ import {
 } from '../../Config/FirebaseConfig';
 import { useNavigate } from 'react-router-dom';
 
-export default function SelecteTrainer() {
+ function SelecteTrainer() {
   const [userId, setUserId] = useState('');
   const [course, setCourse] = useState('');
   const [teacherData, setTeacherData] = useState([]);
@@ -75,11 +75,9 @@ export default function SelecteTrainer() {
                 setLoadingData(false);
               });
             } else {
-              // Handle the case where userCourses is not available
               setLoadingData(false);
             }
           } else {
-            // Handle the case where the user document does not exist
             setLoadingData(false);
           }
         });
@@ -90,7 +88,7 @@ export default function SelecteTrainer() {
 
     return () => {
       if (unsubscribeSnapshot) {
-        unsubscribeSnapshot(); // Cleanup the snapshot subscription
+        unsubscribeSnapshot();  
       }
     };
   }, [userId]);
@@ -98,9 +96,8 @@ export default function SelecteTrainer() {
 const data = async (id) => {
     try {
       // setSavingData(true);
-
+      setSavingData(true)
       const teacherDoc = await getDoc(doc(db, "All Teachers", id));
-      // console.log(teacherDoc.data())
       await setDoc(doc(db, teacherDoc.data().Name, userId), {
         TeacherName: teacherDoc.data().Name,
         StudentName: studentName,
@@ -111,7 +108,7 @@ const data = async (id) => {
         Studentimage_url: studentimage_url,
         StudentId: studentId,
       });
-      const docRef = await addDoc(collection(db, studentId), {
+      await setDoc(doc(db, studentId, userId), {
         TeacherName: teacherDoc.data().Name,
         StudentName: studentName,
         Days: teacherDoc.data().Days,
@@ -122,9 +119,8 @@ const data = async (id) => {
         StudentId: studentId,
         TeacherId : id
       });
-      navigate('/studentDashboard');   
-      // || savingData
-
+      setSavingData(false);
+      navigate('/student dashboard');   
     } catch (error) {
       console.error("Error adding document: ", error);
       setSavingData(false);
@@ -133,7 +129,7 @@ const data = async (id) => {
 
   return (
     <div>
-      {loadingData  ? (
+      {loadingData  || savingData ?  (
         <div class="text-center">
         <div class="spinner-border" role="status">
           <span class="visually-hidden">Loading...</span>
@@ -146,14 +142,14 @@ const data = async (id) => {
             <div className="row " style={{gap : 5}}>
                 {
                     teacherData.map((teacher, index) => (
-                        <div className="col-lg-4 col-md-12 col-sm-12 mt-4 bg-info rounded py-3 px-2" key={index} onClick={()=>{data(teacher.id)}} >
+                    <div className="col-lg-4 col-md-12 col-sm-12 mt-4 bg-color rounded py-3 px-2" key={index} onClick={()=>{data(teacher.id)}} >
                     <p>Name : Sir {teacher.data().Name}</p>
                     <p>Cousre : {teacher.data().Courses}</p>
                     <div className="d-flex justify-content-between pe-4">
                     <p>Timming : {teacher.data().Timming}</p>
                     <p>Days : {teacher.data().Days}</p>
                     </div>
-                </div> 
+                    </div> 
                     ))
                 }
             </div>
@@ -165,6 +161,6 @@ const data = async (id) => {
 }
 
 
-
+export default memo(SelecteTrainer)
 
 

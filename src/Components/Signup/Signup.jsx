@@ -79,7 +79,7 @@ const MyForm = () => {
     });
     
     setSignupBtn(false)
-    navigate('/selectedtrainer') 
+    navigate('/selected Trainer') 
   })
   .catch((error) => {
     const errorCode = error.code;
@@ -224,7 +224,3 @@ uploadTask.on('state_changed',
 };
 
 export default MyForm;
-
-
-// angular sheet from hardware shop
-// style={{display :  imageURL ? "block" : " none"}}
