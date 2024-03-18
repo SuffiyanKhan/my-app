@@ -214,7 +214,7 @@ function Routing() {
         <Route path='/' element={teacher ? <Navigate to={"/teacher dashboard"} /> : student ? <Navigate to={"/student dashboard"} /> : <Login />} />
         <Route path='/signup' element={ <Signup />} />
         <Route path='/selected Trainer' element={  <SelectTrainer/>} />
-        <Route path='/teacher registration' element={ teacher ? <Navigate to={"/teacher registration"} /> : <TeacherRegistration />} />
+        <Route path='/teacher registration' element={ teacher ? <Navigate to={"/teacher dashboard"} /> : <TeacherRegistration />} />
         <Route path='/teacher dashboard' element={ teacher ? < TeacherDashboard /> : <Navigate to={'/'} />} />
         <Route path='/student dashboard' element={ student ? <Home /> : <Navigate to={'/'} /> } />
       </Routes>

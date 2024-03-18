@@ -182,48 +182,7 @@ const unsubscribes = onSnapshot(q1, (snapshot) => {
   
 
 
-  // return (
-  //   <div>
-  //        <div className="container">
-  //                   <div className="row flex-column">
-  //                       {
-  //                           loading ? (
-  //                             <div className="justify-content-lg-center justify-content-md-center justify-content-sm-center align-items-lg-center align-items-md-center align-items-sm-center ">
-  //                               <p className='text-center fs-3 fw-bold  ' >Data not found</p>
-  //                             </div>
-  //                           ) : (
-                              
-  //                             allData ?
-  //                             (
-  //                               <>
-  //                              <div className="col-lg-6 col-md-12 col-sm-12 m-auto  border border-light d-flex align-items-center p-3 mt-4 rounded main-div">
-  //                                   <p className='ms-3 text-capitalize fw-semibold fs-4 px-5'>Now your are eliminated</p>
-  //                               </div>    
-  //                              </>
-  //                             )
-  //                               : (
-  //                                 <>
-  //                                  <div className="col-lg-6 col-md-12 col-sm-12 m-auto  border border-light d-flex align-items-center p-3 mt-4 rounded main-div">
-  //                               <div className="img" style={{width : "60px"}} >
-  //                                   <img className='img-fluid rounded-circle' src={currentStudentImageUrl  && "" } alt="" />
-  //                               </div>
-  //                               <p className='ms-3 text-capitalize fw-semibold fs-5'>{currentStudentName ? currentStudentName :  "Now your are Eliminated this course" }</p>
-  //                           </div>
-  //                               <div className="col-lg-6 col-md-12 col-sm-12 m-auto  border border-light d-flex align-items-center p-3 mt-4 rounded main-div">
-  //                               <div className="img" style={{width : "60px"}} >
-  //                                   <img className='img-fluid rounded-circle' src={studentImageUrl} alt="" />
-  //                               </div>
-  //                               <p className='ms-3 text-capitalize fw-semibold fs-5'>{studentName}</p>
-  //                           </div>
-  //                                 </>
-  //                             )
-  //                           )
-  //                       }
-                        
-  //                   </div>
-  //               </div>
-  //   </div>
-  // )
+   
 }
 
 export default memo(SecondBanner);
