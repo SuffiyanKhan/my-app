@@ -72,7 +72,7 @@ function TeacherNavbar() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               <li className="nav-item">
-              <Link className="nav-link active fw-semibold" style={{cursor : 'not-allowed'}} aria-current="page">All Students</Link>
+              <Link className="nav-link active fw-semibold"  to={'/'} aria-current="page">All Students</Link>
               </li>
               <li className="nav-item">
               <Link className="nav-link active fw-semibold" style={{cursor : 'not-allowed'}} aria-current="page">Classes</Link>

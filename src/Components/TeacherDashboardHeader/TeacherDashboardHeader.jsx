@@ -2,6 +2,7 @@ import React, { memo, useEffect, useState } from 'react';
 import { onAuthStateChanged, auth, collection, onSnapshot, db, doc, getDoc, deleteDoc, deleteUser  } from '../../Config/FirebaseConfig';
 import { useContext } from 'react';
 import { TeacherData } from '../../Context/Context';
+import Loader from '../Loader/Loader';
 
 function TeacherDashboardHeader() {
   const [allStudentData, setAllStudentData] = useState([]);
@@ -41,7 +42,7 @@ function TeacherDashboardHeader() {
 
   const getData = useContext(TeacherData);
   if (!getData) {
-    return <p className='text-center fs-4'>Loading ...</p>;
+    return <Loader/>
   }
 
   const deleteStudent =async (studentId) => {
