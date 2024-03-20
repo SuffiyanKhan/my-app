@@ -119,9 +119,9 @@ function TeacherNavbar() {
   <div className="offcanvas-body">
     <div className="d-flex flex-column ">
       <button className='btn btn-light mb-3 text-start px-4 text-capitalize fs-6'>Manage Account</button>
+      <Link to={'/teacher registration'} > <button className='btn btn-light mb-3 text-start px-4 text-capitalize fs-6'>Add Account</button></Link>
       <button className='btn btn-light mb-3 text-start px-4 text-capitalize fs-6' onClick={logout} >Sign out</button>
       <button className='btn btn-light mb-3 text-start px-4 text-capitalize fs-6'>Delete Account</button>
-       
     </div>
   </div>
 </div>

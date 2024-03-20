@@ -37,9 +37,7 @@ return (
       <TeacherDashboardHeader />
       </TeacherData.Provider>
       <TeacherBannerData.Provider>
-      </TeacherBannerData.Provider>
-      <h4>TeacherDashboard</h4>
-       
+      </TeacherBannerData.Provider>     
     </div>
   )
 }

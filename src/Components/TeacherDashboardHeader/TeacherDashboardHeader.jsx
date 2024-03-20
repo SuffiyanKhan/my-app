@@ -64,10 +64,10 @@ function TeacherDashboardHeader() {
                 <img className="img-fluid rounded-circle" src={student.Studentimage_url} alt="" />
                 <p className="ms-3 text-capitalize fw-semibold fs-5">{student.StudentName}</p>
               </div>
-              <div className="dropdown border border-dark d-flex align-items-center justify-content-center" style={{ width: '30px', height: '30px', borderRadius: '50%' }} id="dropdownMenuButton" data-bs-toggle="dropdown">
-                <i className="fa-solid fa-ellipsis-vertical"></i>
+              <div className="dropdown border border-dark d-flex align-items-center justify-content-center" style={{ width: '30px', height: '30px', borderRadius: '50%', cursor : 'pointer' }} id="dropdownMenuButton" data-bs-toggle="dropdown">
+                <i className="fa-solid fa-ellipsis-vertical" ></i>
                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <li className="dropdown-item" onClick={() => deleteStudent(student.id)}>Eliminate</li>
+                  <li className="dropdown-item" onClick={() => deleteStudent(student.id)} style={{cursor : 'pointer'}} >Eliminate</li>
                 </ul>
               </div>
             </div>
