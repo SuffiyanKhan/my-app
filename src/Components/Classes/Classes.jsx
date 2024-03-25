@@ -15,6 +15,7 @@ function Classes() {
   const [imageSave , setImageSave] = useState(false);
   const [teacherName , setTeacherName] = useState('')
   const [uploadClass , setUploadClass] = useState(false)
+  const [totalCasses , setTotalClasses] = useState('')
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -25,16 +26,16 @@ function Classes() {
           if (docSnap.exists()) {
             let teacherName = docSnap.data().Name;
             setTeacherName(teacherName);
-            // const q = collection(db, teacherName);
-            // const unsubscribeSnapshot = onSnapshot(q, (snapshot) => {
-            //   setTotsllStudent(snapshot.size)
-            //   const studentsData = [];
-            //   snapshot.forEach((doc) => {
-            //     studentsData.push({ id: doc.id, ...doc.data() });
-            //   });
-            //   setAllStudentData(studentsData);
-            // });
-            // return () => unsubscribeSnapshot();
+            const q = collection(db, `class${teacherName}`);
+            const unsubscribeSnapshot = onSnapshot(q, (snapshot) => {
+              setTotalClasses(snapshot.size)
+              // const studentsData = [];
+              // snapshot.forEach((doc) => {
+              //   studentsData.push({ id: doc.id, ...doc.data() });
+              // });
+              // console.log(studentsData);
+            });
+            return () => unsubscribeSnapshot();
           } else {
             console.log("No such document!");
           }
@@ -180,7 +181,7 @@ function Classes() {
         <div className="row mt-3">
           <div className="">
             <div className="d-flex justify-content-between align-items-center">
-              <h5 className='text-capitalize'>Total Classes : </h5>
+              <h5 className='text-capitalize'>Total Classes : {totalCasses} </h5>
               <div>
               <button className='btn btn-light' data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-plus"></i> Add Class</button>
               </div>
@@ -269,6 +270,7 @@ function Classes() {
       </div>
     </section>
     <ClassesShow />
+    {/* <ClassesShow /> */}
     </>
   )
 }

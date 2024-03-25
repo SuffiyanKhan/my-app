@@ -8,6 +8,7 @@ function TeacherDashboardHeader() {
   const [allStudentData, setAllStudentData] = useState([]);
   const [trainerName, setTrainerName] = useState('');
   const [totsllStudent , setTotsllStudent] = useState('')
+  const [loading, setLoading] = useState(true); // State for loading indicator
 
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, async (user) => {
@@ -27,6 +28,8 @@ function TeacherDashboardHeader() {
                 studentsData.push({ id: doc.id, ...doc.data() });
               });
               setAllStudentData(studentsData);
+              setLoading(false); // Set loading to false when data is fetched
+
             });
             return () => unsubscribeSnapshot();
           } else {
@@ -55,7 +58,10 @@ function TeacherDashboardHeader() {
 
   return (
     <>
-      <div className="container">
+    {
+      loading ? <Loader /> : (
+        <>
+        <div className="container">
         <h5 className='mt-4 text-capitalize'>{`Total student : ${totsllStudent} student are available`}</h5>
         <div className="row d-flex flex-column">
           {allStudentData.map((student) => (
@@ -74,6 +80,9 @@ function TeacherDashboardHeader() {
           ))}
         </div>
       </div>
+        </>
+      )
+    }
     </>
   );
 }
