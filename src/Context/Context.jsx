@@ -5,8 +5,9 @@ const TeacherName = createContext(null)
 const AllIds = createContext(null)
 const TeacherData = createContext(null)
 const TeacherBannerData = createContext(null)
+const teacherData = createContext(null)
   
-export {studentData,  TeacherName, AllIds, TeacherData, TeacherBannerData }
+export {studentData,  TeacherName, AllIds, TeacherData, TeacherBannerData,  teacherData }
 
 
 

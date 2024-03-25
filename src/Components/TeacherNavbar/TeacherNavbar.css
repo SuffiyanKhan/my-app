@@ -1,4 +1,8 @@
-
+nav{
+    position: sticky;
+    top: 0px;
+    z-index: -1;
+}
 .bg-body-color{
     background-color: #96B6C5;
     /* background-color: #0766AD; */

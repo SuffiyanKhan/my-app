@@ -1,11 +1,11 @@
 import './TeacherNavbar.css'
 import logo from '../Images/logo.png'
-import { auth } from '../../Config/FirebaseConfig';
+import { auth, onAuthStateChanged, doc , getDoc, db } from '../../Config/FirebaseConfig';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'
-import { memo, useContext, useEffect, useState } from 'react';
-import { TeacherData } from '../../Context/Context';
+import { memo, useEffect, useState } from 'react';
 import image from '../Images/logo.png'
+import Loader from '../Loader/Loader';
 
 
 
@@ -13,14 +13,38 @@ import image from '../Images/logo.png'
 
 function TeacherNavbar() {
   const [logoutLoader , setLogoutloader] = useState(false);
-  const [ dataOfTeacher , setDataOfTeacher] = useState("")
-  const getData  = useContext(TeacherData)
+  const [teacherName , setTeacherName] = useState("")
+  const [teacherEmail , setTeacherEmail] = useState("")
   const navigate = useNavigate()
+
+  useEffect(()=>{
+    onAuthStateChanged(auth,async (user) => {
+      if (user) {
+        try {
+          const teacherId = user.uid
+          const docRef = doc(db, "All Teachers", teacherId);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            setTeacherName(docSnap.data().Name);
+            setTeacherEmail(docSnap.data().Email);
+        } else {
+        console.log("No such document!");
+  }
+          
+      } catch (error) {
+        console.log(error)
+          
+      }
+        } else {
+        navigate('/')
+      }
+    });
+  },[])
+
+
    
-  if(!getData){
-    console.log("Error")
-  } 
-  console.log(getData)
+   
+  // console.log(getData)
   // setDataOfTeacher(getData)
   const logout = () => {
     setLogoutloader(true)
@@ -60,7 +84,7 @@ function TeacherNavbar() {
   return (
     <>
     {
-      logoutLoader ? "Loading ...!" :
+      logoutLoader ?  <Loader/> :
       (
         <div>
         <nav className="navbar navbar-expand-lg bg-body-color px-5 border-bottom position-sticky">
@@ -72,13 +96,13 @@ function TeacherNavbar() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               <li className="nav-item">
-              <Link className="nav-link active fw-semibold"  to={'/'} aria-current="page">All Students</Link>
+              <Link className="nav-link active fw-semibold" style={{cursor : 'pointer'}}  to={'/teacher dashboard'} aria-current="page">All Students</Link>
               </li>
               <li className="nav-item">
-              <Link className="nav-link active fw-semibold" style={{cursor : 'not-allowed'}} aria-current="page">Classes</Link>
+              <Link className="nav-link active fw-semibold" style={{cursor : 'pointer'}}  to={'/classes'} aria-current="page">Classes</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link active fw-semibold"   aria-current="page"  ><p data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample"> Profile</p></Link>
+                <Link className="nav-link active fw-semibold" style={{cursor : 'pointer'}}   aria-current="page"  ><p data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample"> Profile</p></Link>
               </li>
             </ul>
           </div>
@@ -98,12 +122,14 @@ function TeacherNavbar() {
       <div className='ms-3'>
     <p className="offcanvas-title   fw-bold p-0 mt-2" id="offcanvasExampleLabel">
        {
-         getData.Name 
+        teacherName
+        //  getData.Name 
        }
     </p>
     <p className='p-0'>
       {
-        getData.Email 
+        teacherEmail
+        // getData.Email 
       }
     </p>
       </div>

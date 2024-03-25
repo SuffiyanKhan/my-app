@@ -3,7 +3,7 @@ import { auth, onAuthStateChanged, doc , getDoc, db} from '../../Config/Firebase
 import { useNavigate } from 'react-router-dom';
 import TeacherNavbar from '../TeacherNavbar/Navbar';
 import TeacherDashboardHeader from '../TeacherDashboardHeader/TeacherDashboardHeader';
-import {TeacherBannerData, TeacherData} from '../../Context/Context'
+import { TeacherData} from '../../Context/Context'
 function TeacherDashboard() {
     const [TeacherDatas , setTeacherDatas] =useState("")
     const navigate = useNavigate()
@@ -33,7 +33,7 @@ function TeacherDashboard() {
 return (
     <div>
       <TeacherData.Provider value={TeacherDatas} >
-      <TeacherNavbar />
+      {/* <TeacherNavbar /> */}
       <TeacherDashboardHeader />
       </TeacherData.Provider>
           

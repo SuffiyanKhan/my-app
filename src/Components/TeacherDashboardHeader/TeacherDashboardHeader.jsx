@@ -7,6 +7,7 @@ import Loader from '../Loader/Loader';
 function TeacherDashboardHeader() {
   const [allStudentData, setAllStudentData] = useState([]);
   const [trainerName, setTrainerName] = useState('');
+  const [totsllStudent , setTotsllStudent] = useState('')
 
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, async (user) => {
@@ -20,6 +21,7 @@ function TeacherDashboardHeader() {
             setTrainerName(teacherName);
             const q = collection(db, teacherName);
             const unsubscribeSnapshot = onSnapshot(q, (snapshot) => {
+              setTotsllStudent(snapshot.size)
               const studentsData = [];
               snapshot.forEach((doc) => {
                 studentsData.push({ id: doc.id, ...doc.data() });
@@ -40,11 +42,7 @@ function TeacherDashboardHeader() {
     return () => unsubscribeAuth();
   }, []);
 
-  const getData = useContext(TeacherData);
-  if (!getData) {
-    return <Loader/>
-  }
-
+   
   const deleteStudent =async (studentId) => {
     try {
       await deleteDoc(doc(db, trainerName, studentId));
@@ -58,6 +56,7 @@ function TeacherDashboardHeader() {
   return (
     <>
       <div className="container">
+        <h5 className='mt-4 text-capitalize'>{`Total student : ${totsllStudent} student are available`}</h5>
         <div className="row d-flex flex-column">
           {allStudentData.map((student) => (
             <div key={student.id} className="col-lg-6 col-md-12 col-sm-12 m-auto border border-light d-flex justify-content-between p-3 mt-4 rounded main-div">

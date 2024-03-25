@@ -1,0 +1,19 @@
+button{
+     /* width: 55px;
+     height: 35px; */
+     /* width: 100px;
+     height: 20px;
+     border-radius: 50%; */
+     /* border: 2px s; */
+     transition: all ease 0.3s;
+     background-color: transparent;
+}
+button:hover{
+    background-color: lightgrey;
+}
+button:active{
+    background-color: lightgrey;
+}
+button:focus{
+    background-color: lightgrey;
+}

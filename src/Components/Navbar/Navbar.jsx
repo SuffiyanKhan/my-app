@@ -1,6 +1,6 @@
 import './Navbar.css'
 import logo from '../Images/logo.png'
-import { auth, deleteUser, onAuthStateChanged , deleteDoc , doc , db } from '../../Config/FirebaseConfig';
+import { auth, deleteUser, onAuthStateChanged , deleteDoc , doc , db,getDocs, collection } from '../../Config/FirebaseConfig';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'
 import { memo, useContext, useEffect, useState } from 'react';
@@ -10,24 +10,41 @@ import { studentData } from '../../Context/Context';
 function AppNavbar() {
   
   const [studentId , setStudentId] = useState('')
-  const getData = useContext(studentData)
-  
+  const [teacherName , setTeacherName] = useState('')
+  const getData = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, studentId));
+      querySnapshot.forEach((doc) => {
+        if(!doc){
+          alert('Data not yet')
+        }else if(!doc.data()){
+          alert('data not yet')
+        }else{
+          console.log(doc.data())
+          setTeacherName(doc.data().TeacherName);
+           
+        }
+      });
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }  
+  };
   useEffect(()=>{
-    onAuthStateChanged(auth ,(user)  => {
-      if(user){
-        const uid = user.uid
-      setStudentId(uid)
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const uid = user.uid;
+        setStudentId(uid);
       }
-    })
+    });
+    if (studentId) {
+      getData();
+    }
+    return () => {
+      unsubscribe();
+    };
     
   },[])
-  if (!getData) {
-    console.log('error')
-  }
-  const { TeacherName } = getData;
-
-
-
+   
   const navigate = useNavigate()
   const logout = () => {
     Swal.fire({
@@ -60,7 +77,7 @@ function AppNavbar() {
     try {
        deleteUser(auth.currentUser).then(async() => {
         await deleteDoc(doc(db, "All Students", studentId));
-          await deleteDoc(doc(db, TeacherName, studentId));
+          await deleteDoc(doc(db, teacherName, studentId));
           await deleteDoc(doc(db, studentId, studentId));
           navigate('/')
             console.log('successfully')
@@ -95,16 +112,10 @@ function AppNavbar() {
         <Link className="nav-link active" aria-current="page" to={'/student dashboard'}>Home</Link>
         </li>
         <li className="nav-item">
-        <Link className="nav-link active" style={{cursor : 'not-allowed'}} aria-current="page">About</Link>
-        </li>
-        <li className="nav-item">
-        <Link className="nav-link active" style={{cursor : 'not-allowed'}} aria-current="page">Contact</Link>
-        </li>
-        <li className="nav-item">
           <Link className="nav-link active" style={{cursor : 'not-allowed'}} aria-current="page">Support</Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link active"style={{cursor : 'not-allowed'}}  aria-current="page">Classes</Link>
+          <Link className="nav-link active" aria-current="page" to={"/student classes"}>Classes</Link>
         </li>
         <li className="nav-item">
           <Link className="nav-link active" aria-current="page" onClick={deleteAccount}>Delete Account</Link>

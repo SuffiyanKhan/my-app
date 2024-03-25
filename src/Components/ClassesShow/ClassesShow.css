@@ -1,0 +1,58 @@
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+    gap: 20px; /* Adjust the gap between cards */
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ensures all cards have the same height */
+  }
+
+  .custom-card-video {
+    width: 100%; /* Set width to fill parent container */
+    height: 200px; /* Set initial height */
+    object-fit: cover; /* Maintain aspect ratio and crop if necessary */
+    cursor: pointer; /* Change cursor to pointer on hover */
+  }
+
+  .card-expanded {
+    height: auto; /* Expand card height */
+  }
+
+  /* .card {
+    position: relative;
+    overflow: hidden;
+    transition: height 0.3s ease; 
+  }
+
+  .card:hover {
+    height: auto;  
+  } */
+
+  .custom-card-img {
+    width: 100%; /* Set width to fill parent container */
+    height: 200px; /* Set initial height */
+    object-fit: cover; /* Maintain aspect ratio and crop if necessary */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    /* width: 100%;  
+    height: auto;  
+    transition: height 0.3s ease;  */
+  }
+/* 
+  .card-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7);  
+    color: #fff;  
+    padding: 10px;
+    box-sizing: border-box;
+    transition: bottom 0.3s ease;  
+  }
+
+  .card:hover .card-body {
+    bottom: -50px;  
+  } */

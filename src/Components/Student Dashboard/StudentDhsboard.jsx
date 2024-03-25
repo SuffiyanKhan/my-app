@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useState } from 'react';
 import { db, onAuthStateChanged, auth, getDocs, collection } from '../../Config/FirebaseConfig';
-import AppNavbar from '../Navbar/Navbar';
+// import AppNavbar from '../Navbar/Navbar';
 import FirstBanner from '../FirstBanner/FirstBanner';
 import { Spin } from 'antd';
 import { studentData } from '../../Context/Context';
@@ -62,16 +62,19 @@ function StudentDhsboard() {
   }, [userId]);
   if(trainerName === "" || Course === "" || Days === "" || timing === ""){
   }
+
   const datas ={
     TeacherName : trainerName,
     CourseName : Course,
     Days : Days,
     Timing : timing
   }
+  console.log(datas.TeacherName)
+
   return (
     <div>
       <studentData.Provider value={datas}>
-      <AppNavbar />
+      {/* <AppNavbar /> */}
       {loader ? <div className='spiners' style={{width: "100%", height : "100vh", display :"flex" , justifyContent :'center' , alignItems : 'center'}}> <Spin /></div> : <FirstBanner/>}
       </studentData.Provider>
       <TeacherName.Provider value={trainerName}>
