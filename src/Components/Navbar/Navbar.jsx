@@ -3,9 +3,8 @@ import logo from '../Images/logo.png'
 import { auth, deleteUser, onAuthStateChanged , deleteDoc , doc , db,getDocs, collection } from '../../Config/FirebaseConfig';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'
-import { memo, useContext, useEffect, useState } from 'react';
-import { studentData } from '../../Context/Context';
-
+import { memo, useEffect, useState } from 'react';
+ 
 
 function AppNavbar() {
   
@@ -20,8 +19,7 @@ function AppNavbar() {
         }else if(!doc.data()){
           alert('data not yet')
         }else{
-          console.log(doc.data())
-          setTeacherName(doc.data().TeacherName);
+           setTeacherName(doc.data().TeacherName);
            
         }
       });
@@ -110,9 +108,6 @@ function AppNavbar() {
       <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
         <li className="nav-item">
         <Link className="nav-link active" aria-current="page" to={'/student dashboard'}>Home</Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link active" style={{cursor : 'not-allowed'}} aria-current="page">Support</Link>
         </li>
         <li className="nav-item">
           <Link className="nav-link active" aria-current="page" to={"/student classes"}>Classes</Link>

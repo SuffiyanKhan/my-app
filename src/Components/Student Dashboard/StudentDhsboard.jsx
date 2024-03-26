@@ -24,8 +24,7 @@ function StudentDhsboard() {
         }else if(!doc.data()){
           alert('data not yet')
         }else{
-          console.log(doc.data())
-          setTrainerName(doc.data().TeacherName);
+           setTrainerName(doc.data().TeacherName);
           setCourse(doc.data().StudentCourse)
           if(doc.data().Days === "MWF"){
             setDays("Monday, Wednesday, Friday")
@@ -69,8 +68,6 @@ function StudentDhsboard() {
     Days : Days,
     Timing : timing
   }
-  console.log(datas.TeacherName)
-
   return (
     <div>
       <studentData.Provider value={datas}>

@@ -13,7 +13,7 @@ function FirstBanner(data) {
   }
  
  const { TeacherName, CourseName, Days, Timing,   } = getData;
-
+// StudentClasses
  return (
     <>
     {

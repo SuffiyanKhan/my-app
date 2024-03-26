@@ -20,8 +20,7 @@ function Routing() {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const uid = user.uid;
-        console.log(uid)
-        
+         
         const teacherCollection = collection(db, "All Teachers");
         onSnapshot(teacherCollection, (snapshot) => {
           snapshot.docChanges().forEach(async (change) => {

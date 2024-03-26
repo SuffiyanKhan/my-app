@@ -2,8 +2,7 @@ import React, { memo, useEffect, useState } from 'react';
 import { collection, db, onSnapshot, onAuthStateChanged, auth, doc, getDoc,  query, orderBy } from '../../Config/FirebaseConfig';
 import './ClassesShow.css'
 import Loader from '../Loader/Loader';  
-// import image from '../Images/Student dashboard images/laptop-5673901_640.jpg';
-
+ 
 function ClassesShow() {
     const [classData , setClassData] = useState(null)
     const [loading, setLoading] = useState(true);
