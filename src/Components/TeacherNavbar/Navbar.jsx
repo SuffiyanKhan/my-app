@@ -1,6 +1,6 @@
 import React, { memo, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { auth, onAuthStateChanged , doc , db , getDoc } from '../../Config/FirebaseConfig'
+import { auth, onAuthStateChanged , doc , db , getDoc , updateDoc } from '../../Config/FirebaseConfig'
 import Swal from 'sweetalert2'
 import Loader from '../Loader/Loader'
 import logo from '../Images/logo.png'
@@ -8,17 +8,21 @@ import userImage from '../Images/images-removebg-preview (1).png'
 function Navbar() {
   const [teacherName , setTeacherName] = useState('');
   const [teacherEmail , setTeacherEmail] = useState('');
-  const [logoutLoader , setLogoutLoader] = useState(false)
+  const [logoutLoader , setLogoutLoader] = useState(false);
+  const [updateName , setUpdateName] = useState('');
+  const [updatePhoneno , setUpdatePhoneno] = useState('');
+  const [updateNICno , setUpdateNICno] = useState('');
+  const [uid ,setUid] = useState('')
  
   useEffect(()=>{
     onAuthStateChanged(auth,async (user) => {
             if (user) {
               try {
                 const teacherId = user.uid
+                setUid(teacherId)
                 const docRef = doc(db, "All Teachers", teacherId);
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
-                  console.log(docSnap.data())
                   setTeacherName(docSnap.data().Name);
                   setTeacherEmail(docSnap.data().Email);
               } else {
@@ -70,8 +74,7 @@ function Navbar() {
     });
     
   };
-
-
+   
    
   return (
     <>
@@ -133,13 +136,13 @@ function Navbar() {
   <hr className="divider" />
   <div className="offcanvas-body">
     <div className="d-flex flex-column ">
-      <button className='btn btn-light mb-3 text-start px-4 text-capitalize fs-6'>Manage Account</button>
-      <Link to={'/teacher registration'} > <button className='btn btn-light mb-3 text-start px-4 text-capitalize fs-6'>Add Account</button></Link>
       <button className='btn btn-light mb-3 text-start px-4 text-capitalize fs-6' onClick={logout}  >Sign out</button>
-      <button className='btn btn-light mb-3 text-start px-4 text-capitalize fs-6'>Delete Account</button>
     </div>
   </div>
 </div>
+ 
+ 
+
         </>
       )
     }

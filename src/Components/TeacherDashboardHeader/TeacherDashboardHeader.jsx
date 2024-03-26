@@ -1,14 +1,12 @@
 import React, { memo, useEffect, useState } from 'react';
-import { onAuthStateChanged, auth, collection, onSnapshot, db, doc, getDoc, deleteDoc, deleteUser  } from '../../Config/FirebaseConfig';
-import { useContext } from 'react';
-import { TeacherData } from '../../Context/Context';
+import { onAuthStateChanged, auth, collection, onSnapshot, db, doc, getDoc, deleteDoc,} from '../../Config/FirebaseConfig';
 import Loader from '../Loader/Loader';
 
 function TeacherDashboardHeader() {
   const [allStudentData, setAllStudentData] = useState([]);
   const [trainerName, setTrainerName] = useState('');
   const [totsllStudent , setTotsllStudent] = useState('')
-  const [loading, setLoading] = useState(true); // State for loading indicator
+  const [loading, setLoading] = useState(true);  
 
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, async (user) => {
@@ -22,14 +20,14 @@ function TeacherDashboardHeader() {
             setTrainerName(teacherName);
             const q = collection(db, teacherName);
             const unsubscribeSnapshot = onSnapshot(q, (snapshot) => {
-              setTotsllStudent(snapshot.size)
+              console.log()
               const studentsData = [];
               snapshot.forEach((doc) => {
+                setTotsllStudent(snapshot.size)
                 studentsData.push({ id: doc.id, ...doc.data() });
               });
               setAllStudentData(studentsData);
-              setLoading(false); // Set loading to false when data is fetched
-
+              setLoading(false); 
             });
             return () => unsubscribeSnapshot();
           } else {

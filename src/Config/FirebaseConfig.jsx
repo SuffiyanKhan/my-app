@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL} from "firebase/storage";
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, sendEmailVerification, deleteUser     } from "firebase/auth";
-import { getFirestore, doc, setDoc, deleteDoc, collection, query, where, getDocs,  addDoc , onSnapshot, getDoc,  orderBy } from "firebase/firestore";
+import { getFirestore, doc, setDoc, deleteDoc, collection, query, where, getDocs,  addDoc , onSnapshot, getDoc,  orderBy , updateDoc } from "firebase/firestore";
 
 
 
@@ -22,5 +22,5 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 
-export {storage ,ref, uploadBytesResumable, getDownloadURL, createUserWithEmailAndPassword, auth, doc, setDoc, db, onAuthStateChanged, signInWithEmailAndPassword, sendEmailVerification, deleteDoc, collection, query, where, getDocs,  addDoc, onSnapshot, getDoc, deleteUser, orderBy  }
-// export {storage ,ref, uploadBytesResumable, getDownloadURL, createUserWithEmailAndPassword, auth, doc, setDoc, db, onAuthStateChanged, signInWithEmailAndPassword, sendEmailVerification, deleteDoc, deleteUser, collection, query, where, getDocs,  addDoc, onSnapshot, getDoc,   }
+export {storage ,ref, uploadBytesResumable, getDownloadURL, createUserWithEmailAndPassword, auth, doc, setDoc, db, onAuthStateChanged, signInWithEmailAndPassword, sendEmailVerification, deleteDoc, collection, query, where, getDocs,  addDoc, onSnapshot, getDoc, deleteUser, orderBy, updateDoc   }
+ 
