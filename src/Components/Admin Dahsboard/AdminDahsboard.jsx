@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import {auth, createUserWithEmailAndPassword, doc, setDoc, db} from '../../Config/FirebaseConfig'
+import {auth, createUserWithEmailAndPassword,storage, ref, uploadBytesResumable, getDownloadURL, doc, setDoc, db} from '../../Config/FirebaseConfig'
 import Swal from 'sweetalert2'
+import { Spin } from 'antd';
 
 export default function AdminDahsboard() {
   const navigate = useNavigate()
@@ -14,6 +15,44 @@ export default function AdminDahsboard() {
   const [timming , setTimming] = useState('')
   const [days , setDays] = useState('')
   const [loader ,setLoader] = useState(false)
+  const [image, setImage] = useState(null);
+  const [btnLoader,setBtnLoader] = useState(false)
+  const [imageURL,setImageURL] =useState('')
+
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+  };
+  let uploadFiles=()=>{
+    const mountainImagesRef = ref(storage, `images/studentsImage/${image.name}`);
+    const uploadTask = uploadBytesResumable(mountainImagesRef, image);
+uploadTask.on('state_changed', 
+  (snapshot) => {
+    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    
+    // setLoaderNumber(progress);
+    switch (snapshot.state) {
+      case 'paused':
+        console.log('Upload is paused');
+        break;
+      case 'running':
+        setBtnLoader(true)
+        console.log('Upload is running');
+        break;
+    }
+  }, 
+  (error) => {
+    alert("try again")
+  }, 
+  () => {
+    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+      setImageURL(downloadURL)
+      setBtnLoader(false)
+    })
+  }
+);
+  }
 
   let registration =()=>{
     if( !teacherName){
@@ -41,10 +80,10 @@ export default function AdminDahsboard() {
         CNIC,
         selectedCourses,
         timming,
-        days
+        days,
+        imageURL
       }
-      console.log(obj)
-    }
+     }
     setLoader(true)
     createUserWithEmailAndPassword(auth, email, password)
   .then(async(userCredential) => {
@@ -59,7 +98,8 @@ export default function AdminDahsboard() {
       Courses : selectedCourses ,
       Phone_Number : phoneNumber ,
       Days : days ,
-      UserId : user.uid
+      UserId : user.uid,
+      Image : imageURL
     });
     console.log(user.uid)
       
@@ -87,10 +127,10 @@ export default function AdminDahsboard() {
     navigate('/')
   }
   return (
-    <div style={{width : "100%" , height : "100vh", backgroundColor : "#96B6C5"}}>
+    <div style={{width : "100%" , height : "130vh", backgroundColor : "#96B6C5"}}>
       <div className="container">
         <div className="row d-flex">
-          <div className="mt-4"><button id='back-btn' onClick={back} ><i className="fa-solid fa-arrow-left"></i></button></div>
+          <div className="mt-5"><button id='back-btn' onClick={back} ><i className="fa-solid fa-arrow-left"></i></button></div>
           <h2 className="mt-3"> TEACHER REGISTRATION</h2>
           <div className="col-lg-6 col-sm-12 col-md-12 mt-3">
             <label>Full name</label>
@@ -139,6 +179,12 @@ export default function AdminDahsboard() {
           <div className="col-lg-6 col-sm-12 col-md-12 mt-3">
             <label>Timing</label>
             <input type="text" placeholder='Enter your timing 12 to 2' className='form-control' onChange={(e) => {setTimming(e.target.value)}}/>
+          </div>
+          <div className="col-lg-12col-sm-12 col-md-12 mt-3">
+            <p className='text-capitalize fw-bold'>Upload your picture (optional)</p>
+          <label htmlFor='image' className='border text-center lh-lg rounded w-25' style={{height : "40px", cursor : 'pointer'}} ><i class="fa-solid fa-upload"></i> Upload Picture</label>
+             <input type="file" onChange={handleImageChange} id='image' className='rounded' style={{display :'none'}} />
+             <button className='btn btn-dark mx-3' onClick={uploadFiles}>{btnLoader ? <Spin /> : ' Upload'}</button>
           </div>
           <div className="mt-5 justify-content-center d-flex justify-content-center">
             <button className="btn btn-dark" onClick={registration}   >
